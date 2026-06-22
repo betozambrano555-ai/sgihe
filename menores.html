@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGIHE - Registro de Menores</title>
+    <style>
+        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; }
+        .sidebar { width: 260px; background-color: #1e293b; padding: 24px; display: flex; flex-direction: column; border-right: 2px solid #2563eb; box-sizing: border-box; }
+        .sidebar h2 { color: #38bdf8; text-align: center; margin: 0 0 20px 0; }
+        .btn-back { background-color: #334155; color: #f1f5f9; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; margin-top: 20px; }
+        .btn-back:hover { background-color: #475569; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; box-sizing: border-box; }
+        .header { border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
+        .form-container { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; max-width: 600px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; color: #cbd5e1; }
+        input, select { width: 100%; background-color: #0f172a; border: 1px solid #475569; color: white; padding: 10px; border-radius: 6px; box-sizing: border-box; }
+        .btn-submit { background-color: #2563eb; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
+        .btn-submit:hover { background-color: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>SGIHE</h2>
+        <div style="color: #94a3b8; text-align: center; font-size: 14px;">Módulo: Base de Datos</div>
+        <a href="index.html" class="btn-back">⬅️ Volver al Panel</a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Registro Digital de Menores</h1>
+            <p style="color: #64748b; margin: 5px 0 0 0;">Ingreso de nuevos residentes al expediente legal indexado.</p>
+        </div>
+        <div class="form-container">
+            <div class="form-group">
+                <label>Nombre Completo del Menor</label>
+                <input type="text" placeholder="Ej. Juan Carlos Pérez">
+            </div>
+            <div class="form-group">
+                <label>Fecha de Ingreso</label>
+                <input type="date">
+            </div>
+            <div class="form-group">
+                <label>Estatus Judicial / Legal</label>
+                <select>
+                    <option>Tutoría Temporal Institutional</option>
+                    <option>En Proceso de Adopción</option>
+                    <option>Protección Cautelar de Emergencia</option>
+                </select>
+            </div>
+            <button class="btn-submit" onclick="alert('Éxito: Registro indexado en la base de datos local SQLite.')">Guardar Registro Digital</button>
+        </div>
+    </div>
+</body>
+</html>

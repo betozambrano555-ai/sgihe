@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGIHE - Inventario</title>
+    <style>
+        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; }
+        .sidebar { width: 260px; background-color: #1e293b; padding: 24px; display: flex; flex-direction: column; border-right: 2px solid #2563eb; box-sizing: border-box; }
+        .sidebar h2 { color: #38bdf8; text-align: center; margin: 0 0 20px 0; }
+        .btn-back { background-color: #334155; color: #f1f5f9; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; margin-top: 20px; }
+        .btn-back:hover { background-color: #475569; }
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; box-sizing: border-box; }
+        .header { border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
+        .table-stock { width: 100%; border-collapse: collapse; background-color: #1e293b; border-radius: 8px; overflow: hidden; }
+        .table-stock th, .table-stock td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; }
+        .table-stock th { background-color: #2563eb; color: white; }
+        .alert-low { color: #f43f5e; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>SGIHE</h2>
+        <div style="color: #94a3b8; text-align: center; font-size: 14px;">Módulo: Inventario</div>
+        <a href="index.html" class="btn-back">⬅️ Volver al Panel</a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Inventario General de Insumos</h1>
+            <p style="color: #64748b; margin: 5px 0 0 0;">Control de existencias de fórmulas, pañales y medicamentos críticos.</p>
+        </div>
+        <table class="table-stock">
+            <thead>
+                <tr><th>Insumo</th><th>Existencia</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Fórmula Infantil Etapa 1</td><td>48 Latas</td><td style="color:#16a34a">Stock Óptimo</td></tr>
+                <tr><td>Pañales Talla G</td><td>5 Paquetes</td><td class="alert-low">⚠️ Stock Crítico</td></tr>
+                <tr><td>Acetaminofén Jarabe</td><td>12 Frascos</td><td style="color:#16a34a">Stock Óptimo</td></tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
