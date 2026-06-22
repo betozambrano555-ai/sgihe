@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGIHE - Panel de Control</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 260px;
+            background-color: #1e293b;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #2563eb;
+            box-sizing: border-box;
+        }
+
+        .sidebar h2 {
+            color: #38bdf8;
+            font-size: 24px;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .status-badge {
+            background-color: #16a34a;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+
+        .header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+        }
+
+        .card:hover {
+            border-color: #2563eb;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>SGIHE</h2>
+        <div class="status-badge">🟢 SERVIDOR LOCAL ACTIVO</div>
+        <div style="margin-top: auto; color: #64748b; font-size: 12px; text-align: center;">Hogar y Esperanza v1.0<br>II
+            BTP Informática</div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Panel de Control del Orfanato</h1>
+            <p style="color: #64748b; margin: 5px 0 0 0;">Arquitectura local de baja fricción operando en modo
+                Offline-First</p>
+        </div>
+        <div class="dashboard-grid">
+            <div class="card" onclick="window.location.href='menores.html'">
+                <div class="card-icon">🗄️</div>
+                <div class="card-title">Base de Datos</div>
+                <div class="card-desc">Acceso inmediato a expedientes legales, documentos judiciales e historiales de
+                    los residentes.</div>
+            </div>
+            <div class="card" onclick="window.location.href='clinica.html'">
+                <div class="card-icon">🩺</div>
+                <div class="card-title">Monitoreo Clínico</div>
+                <div class="card-desc">Control estricto de bitácoras de enfermería, esquemas de vacunación y alertas
+                    médicas.</div>
+            </div>
+            <div class="card" onclick="window.location.href='inventario.html'">
+                <div class="card-icon">📦</div>
+                <div class="card-title">Inventario</div>
+                <div class="card-desc">Monitoreo de stock de insumos, fórmulas de leche y pañales con alertas
+                    automáticas de vencimiento.</div>
+            </div>
+            <div class="card" onclick="window.location.href='ajustes.html'">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">Ajustes y Seguridad</div>
+                <div class="card-desc">Configuración de perfiles de usuario, asignación de roles operativos y control de
+                    sincronización.</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
