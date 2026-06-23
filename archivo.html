@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGIHE - Inventario General Unificado</title>
+    <title>SGIHE - Archivo Histórico de Menores</title>
     <style>
         body { 
             background-color: #0f172a; 
@@ -37,9 +37,11 @@
             margin-bottom: 20px; 
             border-bottom: 1px solid #334155;
             padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        /* DISEÑO DE LA TABLA DE CONTROL DEL INVENTARIO */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -62,28 +64,29 @@
         }
         
         tr:hover {
-            background-color: #1e293b;
+            background-color: #0f172a;
         }
 
-        /* BADGES INTERACTIVOS PARA EL STATUS */
-        .badge {
+        .badge-legal {
             display: inline-block;
             padding: 4px 10px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 700;
-        }
-        
-        .status-suficiente { background-color: #10b981; color: white; }
-        .status-alerta { background-color: #f59e0b; color: #0f172a; }
-        .status-critico { background-color: #ef4444; color: white; }
-        
-        .type-tag {
-            color: #3b82f6;
-            font-weight: 600;
+            background-color: #3b82f6;
+            color: white;
         }
 
-        /* EL SÚPER BOTÓN DE REGRESO INTERACTIVO DE LEONEL */
+        .blood-type {
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        /* EL SÚPER BOTÓN DE REGRESO DE LEONEL */
         .btn-back {
             display: inline-flex;
             align-items: center;
@@ -116,26 +119,28 @@
 <body>
 
     <div class="main-container">
+        <!-- El botón del menú principal unificado -->
         <a href="index.html" class="btn-back">
             <span class="back-icon">🏠</span> 
             <span>Regresar al Panel Principal</span>
         </a>
 
         <div class="panel">
-            <h2>📦 Monitoreo de Inventario en Tiempo Real (Alimentos y Clínica)</h2>
+            <h2>📁 Archivo Histórico de Expedientes (Menores)</h2>
             
             <table>
                 <thead>
                     <tr>
-                        <th>Categoría / Tipo</th>
-                        <th>Nombre del Recurso</th>
-                        <th>Cantidad / Existencia</th>
-                        <th>Estatus del Suministro</th>
+                        <th>Nombre Completo</th>
+                        <th>Fecha de Ingreso</th>
+                        <th>Situación Legal</th>
+                        <th>Tipo Sangre</th>
+                        <th>Alergias Detectadas</th>
                     </tr>
                 </thead>
-                <tbody id="tablaInventario">
+                <tbody id="tablaMenores">
                     <tr>
-                        <td colspan="4" style="color: #94a3b8; text-align: center;">Conectando a la base de datos de SGIHE...</td>
+                        <td colspan="5" style="color: #94a3b8; text-align: center;">Cargando expedientes de SGIHE...</td>
                     </tr>
                 </tbody>
             </table>
@@ -158,48 +163,41 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
 
-      async function escucharInventario() {
-        const tabla = document.getElementById('tablaInventario');
+      async function cargarExpedientes() {
+        const tabla = document.getElementById('tablaMenores');
         try {
-            // Consulta directa a la nueva colección unificada
-            const q = query(collection(db, "inventario_general"), orderBy("fechaRegistro", "desc"));
+            // Buscamos exactamente en la colección "menores" que usa menores.html
+            const q = query(collection(db, "menores"), orderBy("timestamp", "desc"));
             const snapshot = await getDocs(q);
             
             tabla.innerHTML = "";
 
             if(snapshot.empty) {
-                tabla.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #94a3b8;">No hay recursos registrados todavía. Go a Alimentos o Clínica para agregar.</td></tr>`;
+                tabla.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8;">No hay menores registrados en el sistema.</td></tr>`;
                 return;
             }
 
             snapshot.forEach((doc) => {
-                const item = doc.data();
-                
-                // Determinar el color del badge según el estatus que guardaste
-                let claseStatus = "status-suficiente";
-                if(item.estatus === "Por Agotarse / Alerta") {
-                    claseStatus = "status-alerta";
-                } else if(item.estatus === "Agotado Totalmente / Crítico") {
-                    claseStatus = "status-critico";
-                }
+                const menor = doc.data();
 
                 const fila = document.createElement('tr');
                 fila.innerHTML = `
-                    <td class="type-tag">${item.tipo || 'General'}</td>
-                    <td style="font-weight: 500; color: #fff;">${item.nombre}</td>
-                    <td><strong>${item.cantidad}</strong> unidades</td>
-                    <td><span class="badge ${claseStatus}">${item.estatus}</span></td>
+                    <td style="font-weight: 600; color: #fff;">👦 ${menor.nombre}</td>
+                    <td style="color: #cbd5e1;">${menor.fechaIngreso}</td>
+                    <td><span class="badge-legal">${menor.estatusLegal}</span></td>
+                    <td><span class="blood-type">${menor.tipoSangre}</span></td>
+                    <td style="color: #94a3b8; font-style: italic;">${menor.alergias}</td>
                 `;
                 tabla.appendChild(fila);
             });
 
         } catch (error) {
-            tabla.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #ef4444;">Error al cargar datos: ${error.message}</td></tr>`;
+            tabla.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #ef4444;">Error al consultar expedientes: ${error.message}</td></tr>`;
         }
       }
 
-      // Ejecutar la carga automática al entrar a la página
-      window.addEventListener('DOMContentLoaded', escucharInventario);
+      // Ejecutar la carga en cuanto se abra la pantalla
+      window.addEventListener('DOMContentLoaded', cargarExpedientes);
     </script>
 </body>
 </html>

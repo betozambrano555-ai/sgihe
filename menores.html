@@ -5,51 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGIHE - Registro de Menores</title>
     <style>
-        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; }
-        .sidebar { width: 260px; background-color: #1e293b; padding: 24px; display: flex; flex-direction: column; border-right: 2px solid #2563eb; box-sizing: border-box; }
-        .sidebar h2 { color: #38bdf8; text-align: center; margin: 0 0 20px 0; }
-        .btn-back { background-color: #334155; color: #f1f5f9; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; margin-top: 20px; }
-        .btn-back:hover { background-color: #475569; }
-        .main-content { flex: 1; padding: 40px; overflow-y: auto; box-sizing: border-box; }
-        .header { border-bottom: 1px solid #334155; padding-bottom: 15px; margin-bottom: 30px; }
-        .form-container { background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; max-width: 600px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 14px; color: #cbd5e1; }
-        input, select { width: 100%; background-color: #0f172a; border: 1px solid #475569; color: white; padding: 10px; border-radius: 6px; box-sizing: border-box; }
-        .btn-submit { background-color: #2563eb; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
-        .btn-submit:hover { background-color: #1d4ed8; }
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 550px; padding: 30px; background-color: #1e293b; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
+        h2 { color: #3b82f6; text-align: center; margin-top: 0; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #94a3b8; font-size: 14px; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 12px; background-color: #0f172a; border: 1px solid #334155; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
+        input:focus, select:focus, textarea:focus { border-color: #3b82f6; outline: none; }
+        .btn-submit { background-color: #3b82f6; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; transition: background 0.2s; margin-top: 10px; }
+        .btn-submit:hover { background-color: #2563eb; }
+        
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #0f172a;
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        .btn-back:hover { background-color: #3b82f6; color: #ffffff; border-color: #60a5fa; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3); }
+        .back-icon { font-size: 18px; }
+
+        /* NOTIFICACIÓN MENORES INTEGRADA */
+        .toast-notification {
+            position: fixed;
+            bottom: -100px;
+            right: 20px;
+            background-color: #3b82f6;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 999;
+        }
+        .toast-notification.show { bottom: 20px; }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>SGIHE</h2>
-        <div style="color: #94a3b8; text-align: center; font-size: 14px;">Módulo: Base de Datos</div>
-        <a href="index.html" class="btn-back">⬅️ Volver al Panel</a>
-    </div>
-    <div class="main-content">
-        <div class="header">
-            <h1>Registro Digital de Menores</h1>
-            <p style="color: #64748b; margin: 5px 0 0 0;">Ingreso de nuevos residentes al expediente legal indexado.</p>
-        </div>
-        <div class="form-container">
+
+    <div class="container">
+        <a href="index.html" class="btn-back">
+            <span class="back-icon">🏠</span> 
+            <span>Regresar al Panel Principal</span>
+        </a>
+
+        <h2>👦 Registro de Ingreso Completo</h2>
+        
+        <form id="menorForm">
             <div class="form-group">
                 <label>Nombre Completo del Menor</label>
-                <input type="text" placeholder="Ej. Juan Carlos Pérez">
+                <input type="text" id="nombre" placeholder="Ej. Leonel Humberto Reyes Zambrano" required>
             </div>
             <div class="form-group">
                 <label>Fecha de Ingreso</label>
-                <input type="date">
+                <input type="date" id="fechaIngreso" required>
             </div>
             <div class="form-group">
-                <label>Estatus Judicial / Legal</label>
-                <select>
-                    <option>Tutoría Temporal Institutional</option>
-                    <option>En Proceso de Adopción</option>
-                    <option>Protección Cautelar de Emergencia</option>
+                <label>Estatus Judicial / Situación Legal</label>
+                <select id="estatusLegal">
+                    <option value="Tutoría Temporal Institucional">Tutoría Temporal Institucional</option>
+                    <option value="Protección Cautelar de Emergencia">Protección Cautelar de Emergencia</option>
+                    <option value="En Proceso de Reinserción">En Proceso de Reinserción</option>
                 </select>
             </div>
-            <button class="btn-submit" onclick="alert('Éxito: Registro indexado en la base de datos local SQLite.')">Guardar Registro Digital</button>
-        </div>
+            <div class="form-group">
+                <label>Tipo de Sangre</label>
+                <select id="tipoSangre">
+                    <option value="O Positivo (O+)">O Positivo (O+)</option>
+                    <option value="O Negativo (O-)">O Negativo (O-)</option>
+                    <option value="A Positivo (A+)">A Positivo (A+)</option>
+                    <option value="B Positivo (B+)">B Positivo (B+)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Alergias Detectadas (Si no tiene, dejar en blanco)</label>
+                <textarea id="alergias" rows="2" placeholder="Ej. Penicilina, mariscos, polvo..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">Guardar Expediente Integral</button>
+        </form>
     </div>
+
+    <div id="toast" class="toast-notification">
+        <span>👦</span> <span id="toastMessage">Expediente integrado al historial</span>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDKjZ3My95rimlv1xSjBHdzx5QDFewX9JM",
+        authDomain: "sgihe-daf79.firebaseapp.com",
+        projectId: "sgihe-daf79",
+        storageBucket: "sgihe-daf79.firebasestorage.app",
+        messagingSenderId: "685969076721",
+        appId: "1:685969076721:web:6576d429da03f5518a9450"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      function showNotification(msg) {
+         const toast = document.getElementById('toast');
+         document.getElementById('toastMessage').innerText = msg;
+         toast.classList.add('show');
+         setTimeout(() => { toast.classList.remove('show'); }, 3000);
+      }
+
+      document.getElementById('menorForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            await addDoc(collection(db, "menores"), {
+                nombre: document.getElementById('nombre').value,
+                fechaIngreso: document.getElementById('fechaIngreso').value,
+                estatusLegal: document.getElementById('estatusLegal').value,
+                tipoSangre: document.getElementById('tipoSangre').value,
+                alergias: document.getElementById('alergias').value || "Ninguna conocida",
+                timestamp: serverTimestamp()
+            });
+            showNotification("¡Expediente aceptado e integrado!");
+            document.getElementById('menorForm').reset();
+        } catch (error) {
+            alert("Error: " + error.message);
+        }
+      });
+    </script>
 </body>
 </html>

@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGIHE - Control de Farmacia y Medicamentos</title>
+    <title>SGIHE - Control de Alimentos y Cocina</title>
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 550px; padding: 30px; background-color: #1e293b; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
-        h2 { color: #3b82f6; text-align: center; margin-top: 0; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .container { width: 100%; max-width: 550px; padding: 30px; background-color: #1e293b; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); position: relative; }
+        h2 { color: #eab308; text-align: center; margin-top: 0; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; color: #94a3b8; font-size: 14px; font-weight: 500; }
         input, select { width: 100%; padding: 12px; background-color: #0f172a; border: 1px solid #334155; border-radius: 6px; color: white; box-sizing: border-box; font-size: 15px; }
-        input:focus, select:focus { border-color: #3b82f6; outline: none; }
-        .btn-med { background-color: #10b981; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; transition: background 0.2s; margin-top: 10px; }
-        .btn-med:hover { background-color: #059669; }
+        input:focus, select:focus { border-color: #eab308; outline: none; }
+        .btn-food { background-color: #eab308; color: #0f172a; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 16px; transition: background 0.2s; margin-top: 10px; }
+        .btn-food:hover { background-color: #ca8a04; }
         
         .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             background-color: #0f172a;
-            color: #3b82f6;
+            color: #eab308;
             text-decoration: none;
             font-size: 15px;
             font-weight: 700;
@@ -32,16 +32,22 @@
             transition: all 0.2s ease;
             cursor: pointer;
         }
-        .btn-back:hover { background-color: #3b82f6; color: #ffffff; border-color: #60a5fa; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3); }
+        .btn-back:hover {
+            background-color: #eab308;
+            color: #0f172a;
+            border-color: #fde047;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(234, 179, 8, 0.3);
+        }
         .back-icon { font-size: 18px; }
 
-        /* NOTIFICACIÓN CLÍNICA INTEGRADA */
+        /* NUEVA NOTIFICACIÓN INTEGRADA DE LEONEL */
         .toast-notification {
             position: fixed;
             bottom: -100px;
             right: 20px;
-            background-color: #10b981;
-            color: white;
+            background-color: #eab308;
+            color: #0f172a;
             padding: 16px 24px;
             border-radius: 8px;
             font-weight: 700;
@@ -52,7 +58,9 @@
             gap: 10px;
             z-index: 999;
         }
-        .toast-notification.show { bottom: 20px; }
+        .toast-notification.show {
+            bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -63,34 +71,34 @@
             <span>Regresar al Panel Principal</span>
         </a>
 
-        <h2>🩺 Registro de Medicamentos e Insumos</h2>
+        <h2>🍎 Control de Alimentos y Cocina</h2>
         
-        <form id="medForm">
+        <form id="foodForm">
             <div class="form-group">
-                <label>Nombre del Medicamento / Insumo Faltante o Ingresado</label>
-                <input type="text" id="nombreMed" placeholder="Ej. Paracetamol 500mg, Amoxicilina, Gasas..." required>
+                <label>Nombre del Alimento / Insumo de Cocina</label>
+                <input type="text" id="nombreFood" placeholder="Ej. Arroz (Kg), Leche (Litros), Pollo..." required>
             </div>
             
             <div class="form-group">
-                <label>Cantidad en Existencia / Unidades</label>
-                <input type="number" id="cantidadMed" placeholder="Ej. 50" required>
+                <label>Cantidad Actual / Stock</label>
+                <input type="number" id="cantidadFood" placeholder="Ej. 20" required>
             </div>
             
             <div class="form-group">
-                <label>Estatus del Suministro</label>
-                <select id="estatusMed">
+                <label>Estatus en la Despensa</label>
+                <select id="estatusFood">
                     <option value="Suficiente Stock">Suficiente Stock</option>
                     <option value="Por Agotarse / Alerta">Por Agotarse / Alerta</option>
                     <option value="Agotado Totalmente / Crítico">Agotado Totalmente / Crítico</option>
                 </select>
             </div>
             
-            <button type="submit" class="btn-med">Registrar en la Farmacia del Centro</button>
+            <button type="submit" class="btn-food">Registrar en la Despensa del Centro</button>
         </form>
     </div>
 
     <div id="toast" class="toast-notification">
-        <span>🩺</span> <span id="toastMessage">Insumo aceptado en inventario</span>
+        <span>✅</span> <span id="toastMessage">Registro Integrado con éxito</span>
     </div>
 
     <script type="module">
@@ -116,18 +124,18 @@
          setTimeout(() => { toast.classList.remove('show'); }, 3000);
       }
 
-      document.getElementById('medForm').addEventListener('submit', async (e) => {
+      document.getElementById('foodForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         try {
             await addDoc(collection(db, "inventario_general"), {
-                nombre: document.getElementById('nombreMed').value,
-                cantidad: parseInt(document.getElementById('cantidadMed').value, 10),
-                estatus: document.getElementById('estatusMed').value,
-                tipo: "Clínico / Farmacia", 
+                nombre: document.getElementById('nombreFood').value,
+                cantidad: parseInt(document.getElementById('cantidadFood').value, 10),
+                estatus: document.getElementById('estatusFood').value,
+                tipo: "Alimentos / Cocina", 
                 fechaRegistro: serverTimestamp()
             });
             showNotification("¡Registro integrado con éxito!");
-            document.getElementById('medForm').reset();
+            document.getElementById('foodForm').reset();
         } catch (error) {
             alert("Error: " + error.message);
         }
